@@ -1,4 +1,4 @@
-#Boomi Secret Manager
+# Boomi Secret Manager
 
 I wanted to share a solution I recently developed to simplify the Management of Credentials and Connection Properties when using Dell Boomi to access secured endpoints (Database, HTTP Client, etc.)
 
