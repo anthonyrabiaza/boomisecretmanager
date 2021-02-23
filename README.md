@@ -19,7 +19,6 @@ java
 -DimporterParams="boomi-secrets Int-TestAtomCloud"
 -Dexporter=com.boomi.proserv.security.secretmanager.exporter.BoomiExtensionJSONExporter
 -DexporterParams="/home/ant/IdeaProjects/boomisecretmanager/componentsExtracted.json"
--jar com.boomi.proserv.security.secretmanager.BoomiSecretManager
 ```
 
 ## Use for Boomi Extensions
@@ -86,7 +85,7 @@ For instance:
 
 The content of the Secret will be in JSON format. 
 
-For BoomiJSONExport, it will read the element starting with "Connection.", with the convention "Connection.<connectionId>.<property>=<newValue>"
+For BoomiJSONExport, it will read the element starting with "Connection.", with the convention "Connection.*connectionId*.*property*=*newValue*"
 For instance:
 ```json5
 { 
@@ -116,7 +115,8 @@ For instance:
 ```
 
 ## Use for Postman
-For Postman Global file generation, no existing JSON file is required as Boomi Secret Manager will generated the JSON File from scratch: 
+For Postman Global file generation, no existing JSON file is required as Boomi Secret Manager will generated the JSON File from scratch:
+
 ![Alt text](resources/boomisecretmanager-Postman.png?raw=true "boomisecretmanager")
 
 ```shell
@@ -125,7 +125,7 @@ Java
 -DimporterParams="ap-southeast-1 boomi/PreProd-VMWare/API"
 -Dexporter=com.boomi.proserv.security.secretmanager.exporter.PostmanGlobalExporter
 -DexporterParams="My_Workspace.postman_globals.json"
--jar com.boomi.proserv.security.secretmanager.BoomiSecretManager
+com.boomi.proserv.security.secretmanager.BoomiSecretManager
 ```
 
 Example of Postman request:
@@ -142,3 +142,11 @@ And an example of Configuration in Azure Vault:
   (...)
 }
 ```
+
+## Dependencies and Connectivity
+
+### Azure Key Vault
+When using Azure Key Vault, **az** command needs to be available. Also the login process (i.e. az login) is required before calling the Java class. See [Azure docs](https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli) for more details.
+
+### AWS Secret Manager
+The two variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY can be defined as environment variables or aws.accessKeyId and aws.secretKe Java Parameters can be provied to the Java client. See [AWS docs](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html)  for more details.
