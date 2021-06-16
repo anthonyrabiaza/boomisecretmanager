@@ -11,10 +11,17 @@ import java.util.List;
 
 public class BoomiExtensionJSONExporter implements SecretExporter {
 
-    private static String VALUE_FIELD   = "value";
+    private static String VALUE_FIELD       = "value";
+    private static String VALUE_FROM_FIELD  = "valueFrom";
     @Override
     public void export(List<SecretKV> list, String... args) throws Exception {
-        String inputOutputfile = args[0];
+        String inputOutputfile = "";
+        for(int i=0; i<args.length; i++) {
+            if(i!=0) {
+                inputOutputfile += " ";
+            }
+            inputOutputfile += args[i];
+        }
         DocumentContext document = JsonPath.parse(new FileInputStream(inputOutputfile));
 
         for (int i = 0; i < list.size(); i++) {
@@ -36,8 +43,16 @@ public class BoomiExtensionJSONExporter implements SecretExporter {
                     //Field found
                     document.set(jsonPathValue, value);
                 } else {
-                    //Field not found
-                    document.put(jsonPath, VALUE_FIELD, value);
+                    jsonPathValue    = jsonPath + "." + VALUE_FROM_FIELD;
+                    pathObject       = document.read(jsonPathValue);
+
+                    if(pathObject!=null && (pathObject instanceof JSONArray && ((JSONArray)pathObject).size()>=1) ){
+                        //Field found
+                        document.set(jsonPathValue, value);
+                    } else {
+                        //Field not found
+                        document.put(jsonPath, VALUE_FIELD, value);
+                    }
                 }
             } else if(key.startsWith("ProcessProperty")) {
                 //TODO

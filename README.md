@@ -19,6 +19,7 @@ java
 -DimporterParams="boomi-secrets Int-TestAtomCloud"
 -Dexporter=com.boomi.proserv.security.secretmanager.exporter.BoomiExtensionJSONExporter
 -DexporterParams="/home/ant/IdeaProjects/boomisecretmanager/componentsExtracted.json"
+com.boomi.proserv.security.secretmanager.BoomiSecretManager
 ```
 
 ## Use for Boomi Extensions
@@ -28,7 +29,7 @@ java
 The first step is the retrieval the current Environment configuration. In order to get this configuration, a call (GET) to the Environment extension API is required [AtomSphere](https://help.boomi.com/bundle/developer_apis/page/int-Environment_extensions_object.html).
 For instance:
 ```bash
-curl -u <username>:<password> https://api.boomi.com/api/rest/v1/<accountId>/EnvironmentExtensions/<environnmentId> > <pathToJSONFile>
+curl -u <username>:<password> -H "Accept:application/json" https://api.boomi.com/api/rest/v1/<accountId>/EnvironmentExtensions/<environnmentId> > <pathToJSONFile>
 ```
 The JSON file with the current configuration will be returned:
 ```json5
@@ -120,7 +121,7 @@ For Postman Global file generation, no existing JSON file is required as Boomi S
 ![Alt text](resources/boomisecretmanager-Postman.png?raw=true "boomisecretmanager")
 
 ```shell
-Java
+java
 -Dimporter=com.boomi.proserv.security.secretmanager.importer.AWSSecretManager
 -DimporterParams="ap-southeast-1 boomi/PreProd-VMWare/API"
 -Dexporter=com.boomi.proserv.security.secretmanager.exporter.PostmanGlobalExporter
