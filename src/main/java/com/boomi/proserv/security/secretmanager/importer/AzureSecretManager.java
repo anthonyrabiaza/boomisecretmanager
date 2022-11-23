@@ -39,6 +39,7 @@ public class AzureSecretManager implements SecretImporter {
         } else {
             //Retrieve secret from Azure Key Vault, the secret (JSON file) will be parsed
             System.out.println("Retrieving secret ...");
+            System.out.println("If the Script is stuck here, please execute the following command from the CI/CD Agent: az login");
             KeyVaultSecret retrievedSecret = secretClient.getSecret(secretName);
             String secret = retrievedSecret.getValue();
             System.out.println("Secret is " + secret.substring(0, secret.length()>16?16:secret.length()) + "... (truncated)");
