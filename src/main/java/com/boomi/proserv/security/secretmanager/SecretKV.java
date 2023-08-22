@@ -32,6 +32,12 @@ public class SecretKV {
         this.key = key;
     }
 
+    /**
+     * Get List from JSON String
+     * @param secret
+     * @return
+     * @throws Exception
+     */
     public static List<SecretKV> getList(String secret) throws Exception {
         List<SecretKV> list = null;
         ObjectMapper objectMapper = new ObjectMapper();
